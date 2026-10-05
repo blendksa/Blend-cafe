@@ -11,7 +11,12 @@
 <meta name="format-detection" content="telephone=no">
 <meta property="og:title" content="BLEND — Blend. Brew. Sip.">
 <meta property="og:description" content="Specialty coffee, matcha and iced tea in Al-Kharj. Open 24 hours.">
-<meta property="og:image" content="img/hero-freddo.jpg">
+<meta property="og:image" content="https://blend-cafe.sa/img/share-v2.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://blend-cafe.sa/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blend-cafe.sa/img/share-v2.jpg">
 <meta property="og:type" content="website">
 <link rel="icon" href="img/logo-black.svg" type="image/svg+xml">
 <link rel="preload" href="img/hero-freddo.jpg" as="image">
@@ -46,7 +51,7 @@ html[dir=rtl] .label,html[dir=rtl] .navlinks,html[dir=rtl] .eyebrow{letter-spaci
 .navlinks a{padding-bottom:4px;border-bottom:1px solid transparent;transition:color .25s,border-color .25s}
 .lang{border:1px solid rgba(245,241,230,.4);border-radius:20px;padding:7px 14px;min-height:36px;transition:background .25s,color .25s,border-color .25s;letter-spacing:0;text-transform:none}
 @media (hover:hover){.navlinks a:hover{color:var(--peach);border-bottom-color:var(--peach)}.lang:hover{background:var(--cream);color:var(--ink);border-color:var(--cream)}}
-@media (max-width:640px){.navlinks a.hide-sm{display:none}}
+@media (max-width:640px){.nav .est{display:none}.nav{justify-content:flex-end}.navlinks{gap:18px;font-size:12px;letter-spacing:.1em;width:100%;justify-content:space-between}.lang{padding:6px 12px}}
 
 /* HERO */
 .hero{position:relative;height:100vh;height:100svh;min-height:560px;max-height:900px;overflow:hidden}
@@ -58,7 +63,7 @@ html[dir=rtl] .label,html[dir=rtl] .navlinks,html[dir=rtl] .eyebrow{letter-spaci
 .hero h1{font-family:Head,serif;font-weight:400;font-size:clamp(44px,6.2vw,72px);line-height:1;margin-top:14px}
 .hero p{font-size:16px;line-height:1.6;margin-top:16px;color:#D8D2C4}
 .dots{display:flex;gap:10px;margin-top:32px}
-.dots button{height:24px;width:36px;display:flex;align-items:center}
+.dots button{height:24px;padding:0;display:flex;align-items:center}
 .dots button span{display:block;height:4px;width:16px;border-radius:2px;background:rgba(245,241,230,.35);transition:all .3s}
 .dots button.on span{width:36px;background:var(--cream)}
 
@@ -143,11 +148,11 @@ html[dir=rtl] .label,html[dir=rtl] .navlinks,html[dir=rtl] .eyebrow{letter-spaci
 <img class="slide" src="img/hero-matcha.jpg" alt="Classic Matcha" loading="lazy">
 <div class="shade"></div>
 <nav class="nav">
-<span data-t="est">Est. Al-Kharj</span>
+<span class="est" data-t="est">Est. Al-Kharj</span>
 <div class="navlinks">
-<a href="#drinks" class="hide-sm" data-t="nDrinks">Drinks</a>
+<a href="#drinks" data-t="nDrinks">Drinks</a>
 <a href="#menu" data-t="nMenu">Menu</a>
-<a href="#visit" class="hide-sm" data-t="nVisit">Visit</a>
+<a href="#visit" data-t="nVisit">Visit</a>
 <button class="lang" id="lang" aria-label="Switch language"><span class="ar" style="font-size:15px">عربي</span></button>
 </div>
 </nav>
@@ -181,7 +186,7 @@ html[dir=rtl] .label,html[dir=rtl] .navlinks,html[dir=rtl] .eyebrow{letter-spaci
 </div>
 <div class="receipt" id="receipt" dir="ltr" lang="en">
 <img class="pill" src="img/menu-pill.png" alt="BLEND.KSA">
-<div class="vert">Blend. Brew. Sip ✳</div>
+<div class="vert">Blend. Brew. Sip ✳&#xFE0E;</div>
 <div class="top"><img src="img/logo-black.svg" alt="BLEND"><img src="img/menu-cups.png" alt=""></div>
 <div id="menuList"></div>
 <div class="note ar line" dir="rtl">*تختلف الأسعار حسب نوع البن</div>
