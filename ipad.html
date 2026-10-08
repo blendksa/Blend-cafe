@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>BLEND — Menu</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#121110">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="BLEND Menu">
+<meta name="format-detection" content="telephone=no">
+<link rel="icon" href="img/logo-black.svg" type="image/svg+xml">
+<style>
+@font-face{font-family:Head;src:url(fonts/Migumono.otf) format('opentype');font-display:block}
+@font-face{font-family:Head;src:url(fonts/sakkal-bold.ttf) format('truetype');font-display:block;unicode-range:U+0600-06FF,U+0750-077F,U+08A0-08FF,U+FB50-FDFF,U+FE70-FEFF}
+@font-face{font-family:Body;src:url(fonts/Ezra-Regular.otf) format('opentype');font-weight:400;font-display:block;unicode-range:U+0000-00B6,U+00B8-2021,U+2023-FFFF}
+@font-face{font-family:Body;src:url(fonts/Ezra-Medium.otf) format('opentype');font-weight:500 700;font-display:block;unicode-range:U+0000-00B6,U+00B8-2021,U+2023-FFFF}
+@font-face{font-family:Body;src:url(fonts/brando-hairline.otf) format('opentype');font-weight:400 700;font-display:block;unicode-range:U+0600-06FF,U+0750-077F,U+08A0-08FF,U+FB50-FDFF,U+FE70-FEFF}
+@font-face{font-family:Brando;src:url(fonts/brando-hairline.otf) format('opentype');font-display:block}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#121110;overscroll-behavior:none}
+body{color:#F5F1E6;font-family:Body,serif;-webkit-font-smoothing:antialiased;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent;overflow:hidden;position:fixed;inset:0}
+html[dir=rtl] body{-webkit-text-stroke:.35px currentColor}
+img{display:block;-webkit-user-drag:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+a{color:#F5F1E6}a:hover{color:#D9A68C}
+#app{position:fixed;inset:0;overflow:hidden;touch-action:pan-y}
+.screen{position:absolute;inset:0;transition:opacity .45s ease}
+.screen.off{opacity:0;pointer-events:none}
+
+/* top bar */
+.bar{position:absolute;left:0;right:0;top:0;z-index:4;height:calc(96px + env(safe-area-inset-top));padding:env(safe-area-inset-top) 32px 0;display:flex;align-items:center;justify-content:space-between;gap:16px;background:#121110;transition:background .45s}
+.bar.over{background:linear-gradient(180deg,rgba(18,17,16,.6),rgba(18,17,16,0))}
+.bar .logo{height:20px;width:auto}
+.seg{display:flex;gap:4px;padding:4px;border-radius:30px;border:1px solid rgba(245,241,230,.35)}
+.seg button{min-height:48px;padding:0 26px;border-radius:24px;font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:#F5F1E6;transition:background .25s,color .25s}
+.seg button.on{background:#F5F1E6;color:#121110}
+html[dir=rtl] .seg button{letter-spacing:0;font-size:18px}
+.langbtn{min-height:48px;min-width:72px;padding:0 16px;border-radius:24px;border:1px solid rgba(245,241,230,.4);font-size:17px;color:#F5F1E6}
+
+/* drinks */
+#drinks{overflow-y:auto;-webkit-overflow-scrolling:touch;padding-top:calc(96px + env(safe-area-inset-top));scrollbar-width:none}
+#drinks::-webkit-scrollbar{display:none}
+.wrap{padding:12px 28px calc(56px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:48px}
+.cant{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:22px 24px;background:#A14C26}
+.cant h3{font-family:Head,serif;font-weight:400;font-size:34px;line-height:1}
+.cant p{font-size:16px;margin-top:4px}
+.cant button{min-height:60px;padding:0 30px;border-radius:30px;background:#F5F1E6;color:#121110;font-size:16px;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap}
+html[dir=rtl] .cant button{letter-spacing:0;font-size:19px}
+.cat{display:flex;flex-direction:column;gap:18px}
+.cat .h{display:flex;align-items:baseline;gap:16px}
+.cat .h b{font-family:Head,serif;font-weight:400;font-size:60px;line-height:1}
+.cat .h span{font-size:22px;color:#A8A59C}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+@media (min-width:1000px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.tile{padding:14px 14px 20px;display:flex;flex-direction:column;gap:16px;color:#F5F1E6}
+.ph{aspect-ratio:1/1;overflow:hidden;background:rgba(0,0,0,.16);display:flex;align-items:center;justify-content:center}
+.ph img.photo{width:100%;height:100%;object-fit:cover}
+.ph img.mark{width:36%}
+.meta{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:0 4px}
+.meta b{display:block;font-family:Head,serif;font-weight:400;font-size:30px;line-height:1}
+.meta span{display:block;font-size:18px;line-height:1.3;margin-top:6px}
+.meta i{font-style:normal;font-family:Head,serif;font-size:34px;line-height:1}
+
+/* sweets */
+#sweets{background:#B5643E;overflow:hidden}
+.layer{position:absolute;left:0;top:0;width:820px;height:1458px;transform-origin:0 0}
+.tilt{position:absolute;inset:0;transform:scale(1.07);transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.lbs{position:absolute;inset:0;transition:transform .5s cubic-bezier(.2,.7,.2,1);color:#fff;text-shadow:0 1px 14px rgba(0,0,0,.22);-webkit-text-stroke:0}
+.lb{position:absolute;display:flex;flex-direction:column;gap:2px}
+.lb .en{font-size:22px;text-transform:uppercase;line-height:1.15}
+.lb .ar{font-family:Brando,serif;font-size:27px;-webkit-text-stroke:.6px #fff}
+.lb .pr{font-family:Head,serif;font-size:30px;margin-top:4px}
+.headline{position:absolute;left:36px;width:748px;top:1150px;font-family:Head,serif;font-size:42px;line-height:.95;text-transform:uppercase;color:#fff;text-shadow:0 1px 14px rgba(0,0,0,.22)}
+html[dir=rtl] .headline{text-align:right;line-height:1.25}
+
+/* modal */
+#modal{position:fixed;inset:0;z-index:8;background:rgba(18,17,16,.74);display:flex;align-items:center;justify-content:center;padding:40px;transition:opacity .25s}
+#modal.off{opacity:0;pointer-events:none}
+.card{width:560px;max-width:100%;color:#F5F1E6;padding:40px 40px 36px;display:flex;flex-direction:column;align-items:center;gap:18px;text-align:center;box-shadow:0 40px 80px rgba(0,0,0,.45)}
+.card .lab{font-size:14px;letter-spacing:.16em;text-transform:uppercase}
+.card .band{font-size:16px;margin-top:6px}
+.card .ph{width:300px;height:300px;aspect-ratio:auto;background:rgba(0,0,0,.18)}
+.card .ph img.mark{width:40%}
+.card .nm{font-family:Head,serif;font-size:60px;line-height:1}
+.card .sub{font-size:26px;line-height:1.2}
+.card .pr{font-family:Head,serif;font-size:56px;line-height:1}
+.card .btns{display:flex;gap:12px;margin-top:8px}
+.card .btns button{min-height:56px;padding:0 28px;border-radius:28px;font-size:16px;letter-spacing:.12em;text-transform:uppercase}
+html[dir=rtl] .card .btns button,html[dir=rtl] .card .lab{letter-spacing:0;font-size:18px}
+.card .b1{background:#F5F1E6;color:#121110}.card .b2{border:1px solid #F5F1E6!important;color:#F5F1E6}
+
+/* stats (?stats) */
+#stats{position:fixed;inset:0;z-index:9;background:#F5F1E6;color:#1C1C1C;padding:48px;overflow:auto;-webkit-text-stroke:0;-webkit-user-select:text;user-select:text}
+#stats h2{font-family:Head,serif;font-weight:400;font-size:48px}
+#stats .g{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin:28px 0}
+#stats .g b{display:block;font-family:Head,serif;font-weight:400;font-size:44px}
+#stats .g span,#stats .lbl{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#6B6B67}
+#stats .row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #E3D9C9;font-size:18px}
+#stats .act{display:flex;gap:12px;margin-top:28px}
+#stats .act button{min-height:52px;padding:0 24px;border-radius:26px;background:#1C1C1C;color:#F5F1E6;font-size:14px;letter-spacing:.1em;text-transform:uppercase}
+#stats .act button+button{background:transparent;color:#1C1C1C;border:1px solid #1C1C1C}
+@media (max-width:560px){
+.bar{padding-left:16px;padding-right:16px;gap:10px;height:calc(84px + env(safe-area-inset-top))}
+.bar .logo{height:15px}
+.seg button{padding:0 14px;font-size:13px;min-height:44px}
+.langbtn{min-width:48px;min-height:44px;padding:0 12px}
+#drinks{padding-top:calc(84px + env(safe-area-inset-top))}
+.wrap{padding-left:16px;padding-right:16px;gap:36px}
+.cant{flex-direction:column;align-items:stretch;gap:14px;padding:18px}
+.cant h3{font-size:28px}
+.cat .h b{font-size:40px}.cat .h span{font-size:17px}
+.grid{gap:10px}.tile{padding:10px 10px 14px;gap:12px}
+.meta b{font-size:20px}.meta span{font-size:14px}.meta i{font-size:22px}
+.card{padding:28px 22px}.card .ph{width:220px;height:220px}.card .nm{font-size:40px}.card .pr{font-size:42px}
+}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="screen" id="drinks"><div class="wrap" id="drinkList"></div></div>
+  <div class="screen off" id="sweets" dir="ltr">
+    <div class="tilt" id="tilt"><div class="layer" id="photoLayer"><img src="img/sweets-rust.jpg" alt="BLEND desserts" style="width:820px;height:1458px"></div></div>
+    <div class="lbs" id="lbs"><div class="layer" id="labelLayer">
+      <div class="lb" style="left:84px;top:281px"><div class="en">Dulce Cake</div><div class="ar" dir="rtl">دولتشي كيك</div><div class="pr">28</div></div>
+      <div class="lb" style="left:489px;top:494px;width:182px;align-items:center"><div class="en">Kunafa Cake</div><div class="ar" dir="rtl">كنافه كيك</div><div class="pr">28</div></div>
+      <div class="lb" style="left:175px;top:689px;width:182px;align-items:center"><div class="en">Lava Cake</div><div class="ar" dir="rtl">لافا كيك</div><div class="pr">28</div></div>
+      <div class="lb" style="left:612px;top:958px;width:180px"><div class="en">Mango Truffle Pudding</div><div class="ar" dir="rtl" style="text-align:left">مانقو بودنق</div><div class="pr">27</div></div>
+      <div class="headline" id="headline"></div>
+    </div></div>
+  </div>
+  <div class="bar" id="bar">
+    <img class="logo" src="img/logo-cream.svg" alt="BLEND">
+    <div class="seg"><button id="tD" class="on"></button><button id="tS"></button></div>
+    <button class="langbtn" id="langBtn"></button>
+  </div>
+</div>
+<div id="modal" class="off"><div class="card" id="card"></div></div>
+
+<script>
+(function(){
+var ENDPOINT='';            // Google Sheet web-app URL goes here later
+var DEVICE='Cashier 1';
+var IDLE=20000, FLIP=8000;
+var EMBED=/[?&]embed=1/.test(location.search);if(EMBED)DEVICE='Website';
+
+var CATS=[
+ {en:'Hot Coffee',ar:'القهوة الساخنة',c:'#3A2418',items:[['Espresso','اسبريسو','13'],['Americano','أمريكانو','13'],['Cortado','كورتادو','14'],['Flat White','فلات وايت','15'],['Cappuccino','كابتشينو','17'],['Latte','لاتيه','16'],['Spanish Latte','سبانيش لاتيه','19'],['Coffee of the Day','قهوة اليوم','12/10'],['V60 Hot / Iced','V60 حار / بارد','18/17']]},
+ {en:'Matcha',ar:'الماتشا',c:'#3F5A2E',items:[['Iced Matcha','آيس ماتشا','25','img/hero-matcha.jpg'],['Mango Matcha','مانجو ماتشا','27','img/mango.jpg']]},
+ {en:'Cold Drinks',ar:'المشروبات الباردة',c:'#A14C26',items:[['Freddo Espresso','فريدو اسبريسو','16','img/hero-freddo.jpg'],['Iced Flat White','آيس فلات وايت','16'],['Iced Latte','آيس لاتيه','17'],['Iced Americano','آيس أمريكانو','14'],['Iced Spanish Latte','آيس سبانيش لاتيه','20']]},
+ {en:'Iced Tea',ar:'آيس تي',c:'#8E1F2B',items:[['Hibiscus Iced Tea','آيس تي كركديه','19','img/hero-hibiscus.jpg'],['Peach Iced Tea','آيس تي خوخ','19','img/iced-tea.jpg'],['Basil Iced Tea','آيس تي حبق','19','img/iced-tea.jpg'],['Blend Iced Tea','سقنتشر بلند','22']]}
+];
+var SH=[
+ ['Ethiopia Espresso','إثيوبيا، اسبريسو','12','esp'],['Ethiopia V60','إثيوبيا، V60','17','v60'],['Ethiopia Iced Drip','إثيوبيا، آيس دريب','18','drip'],
+ ['Yemeni Espresso','اليمن، اسبريسو يمني','15','esp'],['Yemen V60','اليمن، V60','22','v60'],['Yemen Iced Drip','اليمن، آيس دريب','23','drip'],
+ ['Rwanda V60','رواندا، V60','19','v60'],['Rwanda Iced Drip','رواندا، آيس دريب','20','drip'],['Colombia Decaf Iced Drip','كولومبيا (منزوع الكافيين)، آيس دريب','18','decaf'],
+ ['Iced Spanish Latte','آيس سبانيش لاتيه','20','milkIced'],['Flat White','فلات وايت','15','milkHot'],
+ ['Peach Iced Tea','آيس تي خوخ','19','tea','img/iced-tea.jpg'],['Basil Iced Tea','آيس تي حبق','19','tea','img/iced-tea.jpg'],['Hibiscus Iced Tea','آيس تي كركدية','19','hib','img/hero-hibiscus.jpg'],
+ ['Matcha Classic','ماتشا كلاسيك','25','matcha','img/hero-matcha.jpg'],['Matcha Mango','ماتشا مانجو','27','matcha','img/mango.jpg'],['Matcha Latte','ماتشا لاتيه','23','matchaLatte'],
+ ['Blend Espresso','بلند، اسبريسو','13','esp'],['Blend Iced Drip','بلند، آيس دريب','19','drip'],['Blend V60','بلند، V60','18','v60']
+];
+var GC={esp:'#3A2418',v60:'#3A2418',milkHot:'#3A2418',drip:'#A14C26',milkIced:'#A14C26',decaf:'#A14C26',tea:'#8E1F2B',hib:'#8E1F2B',matcha:'#3F5A2E',matchaLatte:'#3F5A2E'};
+var W={
+ morning:{esp:3.2,v60:2.4,milkHot:2.6,milkIced:2.0,drip:1.0,decaf:0.4,matchaLatte:1.2,matcha:0.7,tea:0.4,hib:0.3},
+ midday:{esp:1.0,v60:0.8,milkHot:0.9,milkIced:2.6,drip:2.4,decaf:0.7,matchaLatte:1.6,matcha:2.0,tea:2.0,hib:2.0},
+ afternoon:{esp:1.0,v60:1.3,milkHot:0.9,milkIced:2.0,drip:1.8,decaf:0.8,matchaLatte:2.6,matcha:3.0,tea:2.4,hib:2.2},
+ evening:{esp:1.0,v60:2.6,milkHot:1.0,milkIced:1.6,drip:2.0,decaf:2.2,matchaLatte:1.4,matcha:1.5,tea:2.0,hib:2.0},
+ late:{esp:0.7,v60:1.4,milkHot:0.7,milkIced:1.8,drip:1.4,decaf:3.0,matchaLatte:1.2,matcha:1.4,tea:2.6,hib:2.6}
+};
+var BANDS={morning:['Morning pick','اختيار الصباح'],midday:['Midday pick','اختيار الظهيرة'],afternoon:['Afternoon pick','اختيار العصرية'],evening:['Evening pick','اختيار المساء'],late:['Late-night pick','اختيار آخر الليل']};
+var T={
+ en:{drinks:'Drinks',sweets:'Sweets',lang:'ع',h1:'Four reasons to stay',h2:'a little longer.',cant:"Can't decide?",cantSub:'Let BLEND pick your drink.',pick:'Pick for me',again:'Spin again',done:'Done',picking:'Picking…',picked:'BLEND picked for you'},
+ ar:{drinks:'المشروبات',sweets:'الحلى',lang:'EN',h1:'أربعة خيارات تجعلك',h2:'تطيل البقاء قليلاً',cant:'محتار؟',cantSub:'خل بلند يختار لك',pick:'اختر لي',again:'مرة ثانية',done:'تمام',picking:'نختار لك…',picked:'اختار لك بلند'}
+};
+
+var $=function(id){return document.getElementById(id)};
+var lang='en',tab='drinks',last=Date.now(),pick=null,lastPick=-1,to=null;
+
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function ph(img,alt){return '<div class="ph">'+(img?'<img class="photo" src="'+img+'" alt="'+esc(alt)+'" loading="lazy" decoding="async">':'<img class="mark" src="img/logo-cream.svg" alt="BLEND">')+'</div>'}
+
+function renderDrinks(){
+ var t=T[lang],ar=lang==='ar',h='<div class="cant"><div><h3>'+t.cant+'</h3><p>'+t.cantSub+'</p></div><button id="pickBtn">'+t.pick+'</button></div>';
+ CATS.forEach(function(c){
+  h+='<div class="cat"><div class="h"><b>'+(ar?c.ar:c.en)+'</b><span>'+(ar?c.en:c.ar)+'</span></div><div class="grid">';
+  c.items.forEach(function(i){h+='<div class="tile" style="background:'+c.c+'">'+ph(i[3],i[0])+'<div class="meta"><div><b>'+(ar?i[1]:i[0])+'</b><span>'+(ar?i[0]:i[1])+'</span></div><i>'+i[2]+'</i></div></div>'});
+  h+='</div></div>';
+ });
+ $('drinkList').innerHTML=h;
+ $('pickBtn').addEventListener('click',function(){spin('shuffle_press')});
+}
+function renderChrome(){
+ var t=T[lang];document.documentElement.lang=lang;document.documentElement.dir=lang==='ar'?'rtl':'ltr';
+ $('tD').textContent=t.drinks;$('tS').textContent=t.sweets;$('langBtn').textContent=t.lang;
+ $('headline').innerHTML=esc(t.h1)+'<br>'+esc(t.h2);
+}
+function setTab(v,via){
+ if(via&&v!==tab)track('tab_view',{tab:v,via:via});
+ tab=v;$('drinks').classList.toggle('off',v!=='drinks');$('sweets').classList.toggle('off',v!=='sweets');
+ $('tD').classList.toggle('on',v==='drinks');$('tS').classList.toggle('on',v==='sweets');$('bar').classList.toggle('over',v==='sweets');
+}
+
+// smart shuffle
+function band(){var h=new Date().getHours();try{h=parseInt(new Intl.DateTimeFormat('en-US',{timeZone:'Asia/Riyadh',hour:'numeric',hourCycle:'h23'}).format(new Date()),10)%24}catch(e){}
+ return h>=5&&h<11?'morning':h>=11&&h<15?'midday':h>=15&&h<18?'afternoon':h>=18?'evening':'late'}
+function weighted(b,ex){var w=W[b],arr=SH.map(function(d,i){return i===ex?0:w[d[3]]}),sum=arr.reduce(function(a,c){return a+c},0),r=Math.random()*sum;
+ for(var i=0;i<arr.length;i++){r-=arr[i];if(r<=0)return i}return 0}
+function showCard(idx,landed,b){
+ var d=SH[idx],t=T[lang],ar=lang==='ar',card=$('card');
+ card.style.background=GC[d[3]];
+ card.innerHTML='<div><div class="lab">'+(landed?t.picked:t.picking)+'</div>'+(landed?'<div class="band">'+BANDS[b][ar?1:0]+'</div>':'')+'</div>'+ph(d[4],d[0])+
+  '<div class="nm">'+(ar?d[1]:d[0])+'</div><div class="sub">'+(ar?d[0]:d[1])+'</div><div class="pr">'+d[2]+'</div>'+
+  (landed?'<div class="btns"><button class="b1" id="again">'+t.again+'</button><button class="b2" id="done">'+t.done+'</button></div>':'');
+ if(landed){$('again').onclick=function(e){e.stopPropagation();spin('spin_again')};$('done').onclick=function(e){e.stopPropagation();closePick()}}
+ $('modal').classList.remove('off');
+}
+function spin(src){
+ clearTimeout(to);last=Date.now();track(src,{});
+ var b=band(),fin=weighted(b,lastPick),total=18+Math.floor(Math.random()*6),step=0,idx=-1;
+ pick={b:b,landed:false};
+ (function tick(){
+  step++;
+  if(step>=total)idx=fin;else{var n;do{n=Math.floor(Math.random()*SH.length)}while(n===idx||(step===total-1&&n===fin));idx=n}
+  last=Date.now();showCard(idx,false,b);
+  if(step<total)to=setTimeout(tick,40+step*step*0.6);
+  else to=setTimeout(function(){lastPick=fin;pick={b:b,landed:true,idx:fin};track('shuffle_result',{drink:SH[fin][0],band:b});showCard(fin,true,b)},380);
+ })();
+}
+function closePick(silent){clearTimeout(to);if(pick&&pick.landed&&!silent)track('pick_close',{});pick=null;$('modal').classList.add('off')}
+$('modal').addEventListener('click',function(e){if(e.target===$('modal'))closePick()});
+$('card').addEventListener('click',function(e){e.stopPropagation()});
+
+// analytics
+function stats(){try{return JSON.parse(localStorage.getItem('blend-ipad-stats'))||null}catch(e){return null}}
+function track(type,data){
+ var ev={time:new Date().toISOString(),type:type,lang:lang,device:DEVICE};for(var k in data)ev[k]=data[k];
+ try{var log=JSON.parse(localStorage.getItem('blend-ipad-events')||'[]');log.push(ev);localStorage.setItem('blend-ipad-events',JSON.stringify(log.slice(-5000)))}catch(e){}
+ try{var s=stats()||{press:0,again:0,drinks:0,sweets:0,swipe:0,lang:0,closes:0,results:{},bands:{}};
+  if(type==='shuffle_press')s.press++;if(type==='spin_again')s.again++;if(type==='lang_switch')s.lang++;if(type==='pick_close')s.closes++;
+  if(type==='tab_view'){s[data.tab]++;if(data.via==='swipe')s.swipe++}
+  if(type==='shuffle_result'){s.results[data.drink]=(s.results[data.drink]||0)+1;s.bands[data.band]=(s.bands[data.band]||0)+1}
+  localStorage.setItem('blend-ipad-stats',JSON.stringify(s))}catch(e){}
+ if(ENDPOINT){try{fetch(ENDPOINT,{method:'POST',mode:'no-cors',keepalive:true,headers:{'Content-Type':'text/plain'},body:JSON.stringify(ev)})}catch(e){}}
+}
+
+// sweets scaling + tilt
+function fit(){var w=window.innerWidth,h=window.innerHeight,s=Math.min(w/820,h/1180),x=(w-820*s)/2,y=(h-1180*s)/2-94*s;[$('photoLayer'),$('labelLayer')].forEach(function(l){l.style.transform='translate('+x+'px,'+y+'px) scale('+s+')'})}
+window.addEventListener('resize',fit);fit();
+var sw=$('sweets');
+sw.addEventListener('pointermove',function(e){var r=sw.getBoundingClientRect(),nx=(e.clientX-r.left)/r.width-.5,ny=(e.clientY-r.top)/r.height-.5;
+ $('tilt').style.transform='perspective(1400px) rotateX('+(-ny*5).toFixed(2)+'deg) rotateY('+(nx*5).toFixed(2)+'deg) scale(1.07)';
+ $('lbs').style.transform='translate('+(nx*-16).toFixed(1)+'px,'+(ny*-16).toFixed(1)+'px)'});
+function untilt(){$('tilt').style.transform='scale(1.07)';$('lbs').style.transform='translate(0,0)'}
+sw.addEventListener('pointerleave',untilt);sw.addEventListener('pointerup',function(e){if(e.pointerType!=='mouse')setTimeout(untilt,600)});
+
+// swipe + idle
+var sx=null,sy=0;
+$('app').addEventListener('pointerdown',function(e){last=Date.now();sx=e.clientX;sy=e.clientY});
+$('app').addEventListener('pointerup',function(e){if(sx==null)return;var dx=e.clientX-sx,dy=e.clientY-sy;sx=null;
+ if(Math.abs(dx)>80&&Math.abs(dx)>Math.abs(dy)*1.5)setTab(((dx<0)!==(lang==='ar'))?'sweets':'drinks','swipe')});
+$('drinks').addEventListener('scroll',function(){last=Date.now()},{passive:true});
+setInterval(function(){
+ if(EMBED||Date.now()-last<IDLE)return;
+ if(pick)closePick(true);
+ if(lang!=='en'){lang='en';renderChrome();renderDrinks()}
+ setTab(tab==='drinks'?'sweets':'drinks');
+ if(tab==='drinks')$('drinks').scrollTop=0;
+},FLIP);
+
+$('tD').addEventListener('click',function(){last=Date.now();setTab('drinks','tap')});
+$('tS').addEventListener('click',function(){last=Date.now();setTab('sweets','tap')});
+$('langBtn').addEventListener('click',function(){var n=lang==='ar'?'en':'ar';track('lang_switch',{to:n});lang=n;renderChrome();renderDrinks();if(pick&&pick.landed)showCard(pick.idx,true,pick.b)});
+
+var qm=location.search.match(/[?&]lang=(en|ar)/);if(qm)lang=qm[1];
+renderChrome();renderDrinks();setTab('drinks');
+
+// staff report: open ipad.html?stats
+if(/[?&]stats\b/.test(location.search)){
+ var s=stats()||{press:0,again:0,drinks:0,sweets:0,lang:0,closes:0,results:{}},el=document.createElement('div');el.id='stats';
+ var rows=Object.keys(s.results).sort(function(a,b){return s.results[b]-s.results[a]}).map(function(k){return '<div class="row"><span>'+esc(k)+'</span><span>'+s.results[k]+'</span></div>'}).join('')||'<div class="row"><span>No shuffles yet</span><span></span></div>';
+ el.innerHTML='<h2>BLEND iPad — analytics</h2><div class="g">'+[['Pick for me',s.press],['Spin again',s.again],['Picks closed',s.closes],['Drinks opened',s.drinks],['Sweets opened',s.sweets],['Language switches',s.lang]].map(function(x){return '<div><b>'+x[1]+'</b><span>'+x[0]+'</span></div>'}).join('')+'</div><div class="lbl">Shuffle results</div>'+rows+
+  '<div class="act"><button id="csv">Export CSV</button><button id="close">Back to menu</button></div>';
+ document.body.appendChild(el);
+ $('close').onclick=function(){location.href='ipad.html'};
+ $('csv').onclick=function(){var log=[];try{log=JSON.parse(localStorage.getItem('blend-ipad-events')||'[]')}catch(e){}
+  var cols=['time','type','drink','band','tab','via','lang','to','device'],csv=[cols.join(',')].concat(log.map(function(e){return cols.map(function(c){return '"'+String(e[c]==null?'':e[c]).replace(/"/g,'""')+'"'}).join(',')})).join('\n');
+  var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='blend-ipad-analytics.csv';document.body.appendChild(a);a.click();a.remove()};
+}
+})();
+</script>
+</body>
+</html>

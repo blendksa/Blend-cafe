@@ -137,6 +137,18 @@ html[dir=rtl] .label,html[dir=rtl] .navlinks,html[dir=rtl] .eyebrow{letter-spaci
 .js .receipt .line{opacity:0;transition:opacity .35s ease}
 .js .receipt .line.in{opacity:1}
 @media (prefers-reduced-motion:reduce){.js .band,.js .receipt,.js .receipt .line{opacity:1!important;transform:none!important;clip-path:none!important;transition:none!important}.receipt{transform:rotate(1.5deg)!important}.hero .slide{transition:none}}
+
+/* full menu overlay */
+#fullMenu{position:fixed;inset:0;z-index:50;background:rgba(10,9,8,.86);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .35s ease}
+#fullMenu.open{opacity:1;pointer-events:auto}
+#fullMenu .box{position:relative;width:min(820px,100vw);height:min(1180px,100svh);background:#121110;box-shadow:0 40px 100px rgba(0,0,0,.6);transform:translateY(24px);transition:transform .45s var(--ease)}
+#fullMenu.open .box{transform:none}
+#fullMenu iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
+#fullMenu .x{position:absolute;z-index:2;top:calc(env(safe-area-inset-top) + 108px);inset-inline-end:16px;width:48px;height:48px;border-radius:24px;background:rgba(18,17,16,.82);border:1px solid rgba(245,241,230,.4);color:var(--cream);font-size:22px;line-height:1}
+@media (min-width:900px){#fullMenu .x{top:24px;inset-inline-end:calc((100vw - 820px)/2 - 72px)}}
+.menuBtn{display:inline-flex;align-items:center;gap:12px;margin-top:40px;min-height:56px;padding:0 28px;border-radius:28px;background:var(--rust);color:var(--cream);font-size:14px;letter-spacing:.14em;text-transform:uppercase;transition:background .25s}
+@media (hover:hover){.menuBtn:hover{background:#B85A2F;color:var(--cream)}}
+html[dir=rtl] .menuBtn{letter-spacing:0;font-size:17px}
 </style>
 <script>document.documentElement.classList.add('js');</script>
 </head>
@@ -178,6 +190,7 @@ html[dir=rtl] .label,html[dir=rtl] .navlinks,html[dir=rtl] .eyebrow{letter-spaci
 <div id="visit-hours">
 <h2 data-t="hHead">Open all night.<br>Pour slow.</h2>
 <div class="big24"><div class="n" id="count">24</div><div class="t"><div data-t="hDay">Hours a day</div><div class="s ar" data-t="hDaySub">نخدمكم ٢٤ ساعة</div></div></div>
+<button class="menuBtn" data-open-menu><span data-t="fullMenu">See the full menu &amp; sweets</span><span aria-hidden="true">→</span></button>
 <div class="sched">
 <div><span data-t="d1">Sun – Thu</span><span data-t="v1">Open 24 hours</span></div>
 <div><span data-t="d2">Friday</span><span data-t="v2">Closed 6 – 10 AM</span></div>
@@ -200,13 +213,14 @@ html[dir=rtl] .label,html[dir=rtl] .navlinks,html[dir=rtl] .eyebrow{letter-spaci
 <div><div class="label">Instagram</div><a class="v" href="https://www.instagram.com/blend.ksa/" target="_blank" rel="noopener">@blend.ksa</a></div>
 <div><div class="label" data-t="cWa">WhatsApp · واتساب</div><a class="v" href="https://wa.me/966566115865" target="_blank" rel="noopener" dir="ltr">+966 56 611 5865</a></div>
 </section>
+<div id="fullMenu" role="dialog" aria-modal="true" aria-label="BLEND menu"><div class="box"><button class="x" id="fmClose" aria-label="Close menu">✕</button></div></div>
 <footer class="foot"><span>© 2026</span><img src="img/logo-cream.svg" alt="BLEND"></footer>
 
 <script>
 (function(){
 var T={
- en:{est:'Est. Al-Kharj',nDrinks:'Drinks',nMenu:'Menu',nVisit:'Visit',eyebrow:'Everyday on the bar',loc:'Al-Kharj · Saudi Arabia',moods1:'Four moods.',moods2:'Pick yours.',hHead:'Open all night.<br>Pour slow.',hSub:'نسهر معك، ونحضّر على مهل',hDay:'Hours a day',hDaySub:'نخدمكم ٢٤ ساعة',d1:'Sun – Thu',v1:'Open 24 hours',d2:'Friday',v2:'Closed 6 – 10 AM',d3:'Saturday',v3:'Closed 6 – 8 AM',cFind:'Find us',cWa:'WhatsApp · واتساب',addr:'Alburj, Al-Kharj — Saudi Arabia'},
- ar:{est:'الخرج',nDrinks:'المشروبات',nMenu:'القائمة',nVisit:'زورونا',eyebrow:'يوميًا على البار',loc:'الخرج · المملكة العربية السعودية',moods1:'أربع نكهات.',moods2:'اختر مزاجك.',hHead:'نسهر معك،<br>ونحضّر على مهل',hSub:'Open all night. Pour slow.',hDay:'نخدمكم ٢٤ ساعة',hDaySub:'Hours a day',d1:'الأحد – الخميس',v1:'مفتوح ٢٤ ساعة',d2:'الجمعة',v2:'مغلق ٦ – ١٠ صباحًا',d3:'السبت',v3:'مغلق ٦ – ٨ صباحًا',cFind:'موقعنا',cWa:'واتساب · WhatsApp',addr:'البرج، الخرج — المملكة العربية السعودية'}
+ en:{est:'Est. Al-Kharj',nDrinks:'Drinks',nMenu:'Menu',nVisit:'Visit',eyebrow:'Everyday on the bar',loc:'Al-Kharj · Saudi Arabia',moods1:'Four moods.',moods2:'Pick yours.',hHead:'Open all night.<br>Pour slow.',hSub:'نسهر معك، ونحضّر على مهل',hDay:'Hours a day',hDaySub:'نخدمكم ٢٤ ساعة',d1:'Sun – Thu',v1:'Open 24 hours',d2:'Friday',v2:'Closed 6 – 10 AM',d3:'Saturday',v3:'Closed 6 – 8 AM',cFind:'Find us',fullMenu:'See the full menu &amp; sweets',cWa:'WhatsApp · واتساب',addr:'Alburj, Al-Kharj — Saudi Arabia'},
+ ar:{est:'الخرج',nDrinks:'المشروبات',nMenu:'القائمة',nVisit:'زورونا',eyebrow:'يوميًا على البار',loc:'الخرج · المملكة العربية السعودية',moods1:'أربع نكهات.',moods2:'اختر مزاجك.',hHead:'نسهر معك،<br>ونحضّر على مهل',hSub:'Open all night. Pour slow.',hDay:'نخدمكم ٢٤ ساعة',hDaySub:'Hours a day',d1:'الأحد – الخميس',v1:'مفتوح ٢٤ ساعة',d2:'الجمعة',v2:'مغلق ٦ – ١٠ صباحًا',d3:'السبت',v3:'مغلق ٦ – ٨ صباحًا',cFind:'موقعنا',fullMenu:'القائمة الكاملة والحلى',cWa:'واتساب · WhatsApp',addr:'البرج، الخرج — المملكة العربية السعودية'}
 };
 var HERO=[
  {en:'Freddo Espresso',ar:'فريدو اسبريسو',cEn:'Shaken hard, poured cold, finished with velvet foam.',cAr:'اسبريسو مخفوق بقوة، يُقدَّم باردًا مع رغوة مخملية.'},
@@ -278,6 +292,13 @@ var pos=0;
  if(!reduce&&!paused&&!drag){pos+=0.5;if(third>0&&pos>=third)pos-=third;strip.scrollLeft=pos}else{pos=strip.scrollLeft;if(third>0&&pos>=third){pos-=third;strip.scrollLeft=pos}}
  requestAnimationFrame(loop);
 })();
+var fm=document.getElementById('fullMenu'),box=fm.querySelector('.box');
+function openMenu(e){if(e)e.preventDefault();if(!box.querySelector('iframe')){var f=document.createElement('iframe');f.title='BLEND menu';f.src='ipad.html?embed=1&lang='+lang;box.appendChild(f)}fm.classList.add('open');document.body.style.overflow='hidden'}
+function closeMenu(){fm.classList.remove('open');document.body.style.overflow=''}
+document.querySelectorAll('[data-open-menu]').forEach(function(b){b.addEventListener('click',openMenu)});
+document.getElementById('fmClose').addEventListener('click',closeMenu);
+fm.addEventListener('click',function(e){if(e.target===fm)closeMenu()});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeMenu()});
 })();
 </script>
 </body>
