@@ -143,7 +143,7 @@ html[dir=rtl] .card .btns button,html[dir=rtl] .card .lab{letter-spacing:0;font-
 (function(){
 var ENDPOINT='';            // Google Sheet web-app URL goes here later
 var DEVICE='Cashier 1';
-var IDLE=20000, FLIP=8000;
+var IDLE=15000;
 var EMBED=/[?&]embed=1/.test(location.search);if(EMBED)DEVICE='Website';
 
 var CATS=[
@@ -176,7 +176,7 @@ var T={
 };
 
 var $=function(id){return document.getElementById(id)};
-var lang='en',tab='drinks',last=Date.now(),pick=null,lastPick=-1,to=null;
+var lang='ar',tab='sweets',last=Date.now(),pick=null,lastPick=-1,to=null;
 
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
 function ph(img,alt){return '<div class="ph">'+(img?'<img class="photo" src="'+img+'" alt="'+esc(alt)+'" loading="lazy" decoding="async">':'<img class="mark" src="img/logo-cream.svg" alt="BLEND">')+'</div>'}
@@ -261,20 +261,25 @@ $('app').addEventListener('pointerdown',function(e){last=Date.now();sx=e.clientX
 $('app').addEventListener('pointerup',function(e){if(sx==null)return;var dx=e.clientX-sx,dy=e.clientY-sy;sx=null;
  if(Math.abs(dx)>80&&Math.abs(dx)>Math.abs(dy)*1.5)setTab(((dx<0)!==(lang==='ar'))?'sweets':'drinks','swipe')});
 $('drinks').addEventListener('scroll',function(){last=Date.now()},{passive:true});
+function resetHome(){
+ if(pick)closePick(true);
+ if(lang!=='ar'){lang='ar';renderChrome();renderDrinks()}
+ if(tab!=='sweets')setTab('sweets');
+ $('drinks').scrollTop=0;untilt();
+}
 setInterval(function(){
  if(EMBED||Date.now()-last<IDLE)return;
- if(pick)closePick(true);
- if(lang!=='en'){lang='en';renderChrome();renderDrinks()}
- setTab(tab==='drinks'?'sweets':'drinks');
- if(tab==='drinks')$('drinks').scrollTop=0;
-},FLIP);
+ if(lang==='ar'&&tab==='sweets'&&!pick&&$('drinks').scrollTop===0)return;
+ resetHome();last=Date.now();
+},1000);
 
 $('tD').addEventListener('click',function(){last=Date.now();setTab('drinks','tap')});
 $('tS').addEventListener('click',function(){last=Date.now();setTab('sweets','tap')});
 $('langBtn').addEventListener('click',function(){var n=lang==='ar'?'en':'ar';track('lang_switch',{to:n});lang=n;renderChrome();renderDrinks();if(pick&&pick.landed)showCard(pick.idx,true,pick.b)});
 
-var qm=location.search.match(/[?&]lang=(en|ar)/);if(qm)lang=qm[1];
-renderChrome();renderDrinks();setTab('drinks');
+var qm=location.search.match(/[?&]lang=(en|ar)/);
+if(EMBED){if(qm)lang=qm[1];renderChrome();renderDrinks();setTab('drinks');}
+else{lang='ar';renderChrome();renderDrinks();setTab('sweets');}
 
 // staff report: open ipad.html?stats
 if(/[?&]stats\b/.test(location.search)){
