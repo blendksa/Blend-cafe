@@ -76,6 +76,9 @@ html[dir=rtl] .cant button{letter-spacing:0;font-size:19px}
 .headline{position:absolute;left:36px;width:748px;top:1150px;font-family:Head,serif;font-size:42px;line-height:.95;text-transform:uppercase;color:#fff;text-shadow:0 1px 14px rgba(0,0,0,.22)}
 html[dir=rtl] .headline{text-align:right;line-height:1.25}
 
+
+#berrySlide{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 100%;z-index:2;opacity:0;pointer-events:none;transition:opacity .9s ease}
+#berrySlide.on{opacity:1}
 /* modal */
 #modal{position:fixed;inset:0;z-index:8;background:rgba(18,17,16,.74);display:flex;align-items:center;justify-content:center;padding:40px;transition:opacity .25s}
 #modal.off{opacity:0;pointer-events:none}
@@ -130,6 +133,7 @@ html[dir=rtl] .card .btns button,html[dir=rtl] .card .lab{letter-spacing:0;font-
       <div class="lb" style="left:612px;top:958px;width:180px"><div class="en">Mango Truffle Pudding</div><div class="ar" dir="rtl" style="text-align:left">مانقو بودنق</div><div class="pr">27</div></div>
       <div class="headline" id="headline"></div>
     </div></div>
+    <img id="berrySlide" src="img/berry-ipad.jpg" alt="Berry Cheesecake — new on the bar" decoding="async">
   </div>
   <div class="bar" id="bar">
     <img class="logo" src="img/logo-cream.svg" alt="BLEND">
@@ -261,6 +265,9 @@ $('app').addEventListener('pointerdown',function(e){last=Date.now();sx=e.clientX
 $('app').addEventListener('pointerup',function(e){if(sx==null)return;var dx=e.clientX-sx,dy=e.clientY-sy;sx=null;
  if(Math.abs(dx)>80&&Math.abs(dx)>Math.abs(dy)*1.5)setTab(((dx<0)!==(lang==='ar'))?'sweets':'drinks','swipe')});
 $('drinks').addEventListener('scroll',function(){last=Date.now()},{passive:true});
+
+var sIdx=0,sLast=Date.now();
+setInterval(function(){if(tab!=='sweets'||pick){sLast=Date.now();return}if(Date.now()-sLast>=7000){sIdx=1-sIdx;sLast=Date.now();$('berrySlide').classList.toggle('on',sIdx===1)}},500);
 function resetHome(){
  if(pick)closePick(true);
  if(lang!=='ar'){lang='ar';renderChrome();renderDrinks()}
