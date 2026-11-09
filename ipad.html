@@ -77,8 +77,10 @@ html[dir=rtl] .cant button{letter-spacing:0;font-size:19px}
 html[dir=rtl] .headline{text-align:right;line-height:1.25}
 
 
-#berrySlide{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 100%;z-index:2;opacity:0;pointer-events:none;transition:opacity .9s ease}
+#berrySlide{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:50% 50%;background:#141312;z-index:2;opacity:0;pointer-events:none;transition:opacity .9s ease}
 #berrySlide.on{opacity:1}
+#madridSlide{position:absolute;inset:0;width:100%;height:100%;box-sizing:border-box;padding-top:calc(96px + env(safe-area-inset-top));object-fit:contain;object-position:50% 50%;background:#141312;z-index:2;pointer-events:none}
+#berrySlide{z-index:3}
 /* modal */
 #modal{position:fixed;inset:0;z-index:8;background:rgba(18,17,16,.74);display:flex;align-items:center;justify-content:center;padding:40px;transition:opacity .25s}
 #modal.off{opacity:0;pointer-events:none}
@@ -108,6 +110,7 @@ html[dir=rtl] .card .btns button,html[dir=rtl] .card .lab{letter-spacing:0;font-
 @media (max-width:560px){
 .bar{padding-left:16px;padding-right:16px;gap:10px;height:calc(84px + env(safe-area-inset-top))}
 .bar .logo{height:15px}
+#madridSlide{padding-top:calc(84px + env(safe-area-inset-top))}
 .seg button{padding:0 14px;font-size:13px;min-height:44px}
 .langbtn{min-width:48px;min-height:44px;padding:0 12px}
 #drinks{padding-top:calc(84px + env(safe-area-inset-top))}
@@ -127,13 +130,14 @@ html[dir=rtl] .card .btns button,html[dir=rtl] .card .lab{letter-spacing:0;font-
   <div class="screen off" id="sweets" dir="ltr">
     <div class="tilt" id="tilt"><div class="layer" id="photoLayer"><img src="img/sweets-rust.jpg" alt="BLEND desserts" style="width:820px;height:1458px"></div></div>
     <div class="lbs" id="lbs"><div class="layer" id="labelLayer">
-      <div class="lb" style="left:84px;top:281px"><div class="en">Dulce Cake</div><div class="ar" dir="rtl">دولتشي كيك</div><div class="pr">28</div></div>
-      <div class="lb" style="left:489px;top:494px;width:182px;align-items:center"><div class="en">Kunafa Cake</div><div class="ar" dir="rtl">كنافه كيك</div><div class="pr">28</div></div>
-      <div class="lb" style="left:175px;top:689px;width:182px;align-items:center"><div class="en">Lava Cake</div><div class="ar" dir="rtl">لافا كيك</div><div class="pr">28</div></div>
-      <div class="lb" style="left:612px;top:958px;width:180px"><div class="en">Mango Truffle Pudding</div><div class="ar" dir="rtl" style="text-align:left">مانقو بودنق</div><div class="pr">27</div></div>
+      <div class="lb" style="left:84px;top:281px"><div class="en">Dulce Cake</div><div class="ar" dir="rtl">دولتشي كيك</div></div>
+      <div class="lb" style="left:489px;top:494px;width:182px;align-items:center"><div class="en">Kunafa Cake</div><div class="ar" dir="rtl">كنافه كيك</div></div>
+      <div class="lb" style="left:175px;top:689px;width:182px;align-items:center"><div class="en">Lava Cake</div><div class="ar" dir="rtl">لافا كيك</div></div>
+      <div class="lb" style="left:612px;top:958px;width:180px"><div class="en">Mango Truffle Pudding</div><div class="ar" dir="rtl" style="text-align:left">مانقو بودنق</div></div>
       <div class="headline" id="headline"></div>
     </div></div>
-    <img id="berrySlide" src="img/berry-ipad.jpg" alt="Berry Cheesecake — new on the bar" decoding="async">
+    <img id="madridSlide" src="img/madrid-ipad.jpg" alt="Madrid's Cheesecake" decoding="async">
+    <img id="berrySlide" src="img/berry-ipad-v2.jpg" alt="Berry Cheesecake — new on the bar" decoding="async">
   </div>
   <div class="bar" id="bar">
     <img class="logo" src="img/logo-cream.svg" alt="BLEND">
